@@ -9,6 +9,19 @@ spring:
     name: order-service
   lifecycle:
     timeout-per-shutdown-phase: 15s
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: http://localhost:8888
+      request-connect-timeout: 5000 #Timeout on waiting to connect to the config server (ms)
+      request-read-timeout: 5000 #Timeout on waiting to read configuration data from the config server (ms)
+      fail-fast: true #Makes a failure to connect to the config server fatal
+      retry:
+        max-attempts: 6 #Maximum number of attempts
+        initial-interval: 1000 #Initial retry interval for backoff (ms)
+        max-interval: 2000 #Maximum retry interval for backoff (ms)
+        multiplier: 1.1 #Multiplier to compute the next interval
   r2dbc:
     username: user
     password: password
@@ -23,3 +36,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/polardb_order
 polar:
   catalog-service-uri: "http://localhost:9001"
+orders:
+  greeting: Welcome to the local book catalog!
