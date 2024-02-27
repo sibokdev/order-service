@@ -1,0 +1,15 @@
+# Service manifest for the Catalog Service application
+apiVersion: v1 #The API version for Service objects
+kind: Service #The type of object to create
+metadata:
+  name: order-service #The name of the Service; it must be a valid DNS name
+  labels:
+    app: order-service #A label attached to the Service
+spec:
+  type: ClusterIP #type of service
+  selector:
+    app: order-service #label used to match the pods to target and expose
+  ports:
+  - protocol: TCP # nw protocol used by the service
+    port: 80 # port exposed by the service (kubernetes service)
+    targetPort: 9002 # port exposed by the pods targeted by the service (a pod is containing a container that we created exposing the port 8080)

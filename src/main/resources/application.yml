@@ -16,7 +16,7 @@ spring:
       uri: http://localhost:8888
       request-connect-timeout: 5000 #Timeout on waiting to connect to the config server (ms)
       request-read-timeout: 5000 #Timeout on waiting to read configuration data from the config server (ms)
-      fail-fast: true #Makes a failure to connect to the config server fatal
+      fail-fast: false #Makes a failure to connect to the config server fatal
       retry:
         max-attempts: 6 #Maximum number of attempts
         initial-interval: 1000 #Initial retry interval for backoff (ms)
