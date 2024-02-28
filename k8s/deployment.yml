@@ -25,6 +25,8 @@ spec:
           ports:
             - containerPort: 9002 #ports exposed by the container
           env:
+            - name: BPL_JVM_THREAD_COUNT
+              value: "50"
             - name: POLAR_CATALOG_SERVICE_URI
               value: http://catalog-service
             - name: SPRING_CLOUD_CONFIG_URI
