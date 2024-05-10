@@ -22,6 +22,26 @@ spring:
         initial-interval: 1000 #Initial retry interval for backoff (ms)
         max-interval: 2000 #Maximum retry interval for backoff (ms)
         multiplier: 1.1 #Multiplier to compute the next interval
+    function:
+      definition: dispatchOrder
+    stream:
+      bindings:
+        dispatchOrder-in-0:
+          destination: order-dispatched
+          group: { spring.application.name }
+        acceptOrder-out-0:
+          destination: order-accepted
+    rabbit:
+      bindings:
+        acceptOrder-out-0:
+          producer:
+            transacted: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+    connection-timeout: 5s
   r2dbc:
     username: user
     password: password
@@ -37,4 +57,18 @@ spring:
 polar:
   catalog-service-uri: "http://localhost:9001"
 orders:
-  greeting: Welcome to the local book catalog!
+  greeting: Welcome to the orders system of bookshop!
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health #Exposes the /actuator/refresh endpoint through HTTP
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState,redis,rabbitmq
